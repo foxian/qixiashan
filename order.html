@@ -31,9 +31,39 @@
       height: auto;
       display: block;
     }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* 返回箭头热区 */
+    .back-hotspot {
+      position: absolute;
+      cursor: pointer;
+      z-index: 10;
+      /*
+        order.png 原始尺寸：1080 × 10485
+        返回箭头区域（原图像素）：
+          x: 0,   y: 0
+          w: 100,  h: 60
+        转为百分比：
+          left:   0%
+          top:    0%
+          width:  100/1080 = 9.26%
+          height: 60/10485 = 0.57%
+      */
+      left: 0%;
+      top: 0%;
+      width: 9.26%;
+      height: 0.57%;
+    }
   </style>
 </head>
 <body>
-  <img src="./images/order.png" alt="栖霞山订单详情" draggable="false" />
+  <div class="img-wrapper">
+    <img src="./images/order.png" alt="栖霞山订单详情" draggable="false" />
+    <a class="back-hotspot" href="./index.html"></a>
+  </div>
 </body>
 </html>
