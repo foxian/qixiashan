@@ -27,7 +27,7 @@
     }
 
     /* ========================
-       顶部固定区域（up.png）
+       顶部固定区域（up_1.png）
        ======================== */
     .header-section {
       position: relative;
@@ -40,21 +40,6 @@
       width: 100%;
       height: auto;
       display: block;
-    }
-
-    /* 实时时间覆盖层 —— 位置和字体大小由 JS 动态计算 */
-    .time-overlay {
-      position: absolute;
-      font-weight: 700;
-      color: #1a1a1a;
-      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      pointer-events: none;
-      white-space: nowrap;
-      /* 初始隐藏，等图片加载完再显示 */
-      opacity: 0;
-      transition: opacity 0.2s;
     }
 
     /* ========================
@@ -86,9 +71,7 @@
 
     <!-- 顶部固定区域 -->
     <div class="header-section">
-      <img id="upImg" src="./images/up.png" alt="顶部导航" draggable="false" />
-      <!-- 实时时间覆盖层 -->
-      <div class="time-overlay" id="clock"></div>
+      <img id="upImg" src="./images/up_1.png" alt="顶部导航" draggable="false" />
     </div>
 
     <!-- 底部可滚动区域 -->
@@ -97,58 +80,5 @@
     </div>
 
   </div>
-
-  <script>
-    /*
-     * up.png 原始尺寸：1080 × 381 px
-     *
-     * 时间"9:07"文字在原图中的位置（肉眼测量）：
-     *   - 文字左边缘：约 57px  → 比例 57/1080 = 0.05278
-     *   - 文字顶边缘：约 23px  → 比例 23/381 = 0.06036
-     *   - 字体高度：  约 70px  → 比例 70/381 = 0.18373（相对于图片高度）
-     *
-     * 因此：
-     *   left       = renderWidth  × 0.05278
-     *   top        = renderHeight × 0.06036
-     *   font-size  = renderHeight × 0.18373
-     */
-    const ORIG_W = 1080;
-    const ORIG_H = 381;
-    const TIME_LEFT_RATIO  = 57  / ORIG_W;  // 0.0528
-    const TIME_TOP_RATIO   = 60  / ORIG_H;  // 底部与右侧图标底部对齐
-    const FONT_SIZE_RATIO  = 30  / ORIG_H;  // 字体大小比例
-
-    const clock = document.getElementById('clock');
-    const upImg = document.getElementById('upImg');
-
-    function positionClock() {
-      const rect = upImg.getBoundingClientRect();
-      clock.style.left      = (rect.width  * TIME_LEFT_RATIO) + 'px';
-      clock.style.top       = (rect.height * TIME_TOP_RATIO)  + 'px';
-      clock.style.fontSize  = (rect.height * FONT_SIZE_RATIO) + 'px';
-      clock.style.opacity   = '1';
-    }
-
-    // 图片加载完成后定位
-    if (upImg.complete) {
-      positionClock();
-    } else {
-      upImg.addEventListener('load', positionClock);
-    }
-
-    // 窗口尺寸变化时重新计算
-    window.addEventListener('resize', positionClock);
-
-    // 实时时钟：每秒更新一次，格式 HH:MM
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      clock.textContent = h + ':' + m;
-    }
-
-    updateClock();
-    setInterval(updateClock, 1000);
-  </script>
 </body>
 </html>
